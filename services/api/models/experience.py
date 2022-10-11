@@ -18,25 +18,7 @@ class ExperienceModel(db.Model):
     trip = db.relationship("TripExperienceModel", backref="experience", lazy="dynamic")
     ratings = db.relationship("RatingModel", backref="rating", lazy="dynamic")
 
-    def __init__(
-        self,
-        id: int,
-        title: str,
-        description: str,
-        geo_location: str,
-        image: str,
-        rating: int,
-        keywords: str):
-
-        self.id = id
-        self.title = title
-        self.description = description
-        self.geo_location = geo_location
-        self.image = image
-        self.rating = rating
-        self.keywords = keywords
-
-    def json(self) -> Dict[str, Any]:
+    def to_json(self) -> Dict[str, Any]:
         return {
             "id": self.id,
             "title": self.title,
