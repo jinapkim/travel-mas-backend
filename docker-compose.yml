@@ -1,7 +1,7 @@
 services:
   api:
     build: ./services/api
-    command: gunicorn --bind 0.0.0.0:5000 app:app
+    command: bash -c 'while !</dev/tcp/database/5432; do sleep 1; done; gunicorn --bind 0.0.0.0:5000 app:app'
     volumes:
       - ./services/api/:/usr/src/app/
     ports:
@@ -20,6 +20,7 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=travel_mas
+    restart: always
 
 volumes:
   postgres_data:
