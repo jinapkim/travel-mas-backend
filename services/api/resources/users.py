@@ -28,7 +28,6 @@ class UserLogin(Resource):
 
         if user_name is not None:
             user = UserModel.find_by_username(user_name)
-            print(user.password)
             if not user:
                 return {"message": "User Not Found."}, 404
 

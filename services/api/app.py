@@ -1,13 +1,15 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from marshmallow import ValidationError
 
 from resources.users import User, UserList, UserRegister, UserLogin
 from resources.experiences import Experience, Experiences
 from models.user import UserModel
 from db import db
+from ma import ma
 
 
 app = Flask(__name__)
@@ -18,14 +20,17 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///" +
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["PROPAGATE_EXCEPTIONS"] = True
 app.config["JWT_SECRET_KEY"] = "MySuperSecretKey" # This should be moved elsewhere at some point
-db.init_app(app)
 
+db.init_app(app)
+ma.init_app(app)
 with app.app_context():
     db.drop_all()
     db.create_all()
 
-    # TODO: Remove this line. Only for testing purposes
-    UserModel(first_name="adam", last_name="bratcher", user_name="abratcher", password="password123").save_to_db()
+@app.errorhandler(ValidationError)
+def marshmallow_validation(err):
+    return jsonify(err.messages), 400
+
 
 api.add_resource(User, "/user/<string:user_name>")
 api.add_resource(UserList, "/users")
