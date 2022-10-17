@@ -2,7 +2,7 @@ import json
 import requests
 
 
-def FindLatLong(location):
+def FindLatLong(location: str) -> str:
         api_key = 'AIzaSyCBWhzr0B8_CSuIe7WoXXsqsRGzT5K5_fk'
 
         # Call the Google Maps Find Place API to find the place_id to use for the Geocoding API
@@ -13,7 +13,7 @@ def FindLatLong(location):
 
         response = requests.get(url, headers=headers, data=payload)
 
-        jresponse = json.loads(response.text)
+        jresponse = response.json()
         location_id = jresponse["predictions"][0]['place_id']
 
         # Call the Google Maps Geocoding API to get the GPS coordinates
@@ -24,7 +24,7 @@ def FindLatLong(location):
 
         response = requests.get(url, headers=headers, data=payload)
 
-        jresponse = json.loads(response.text)
+        jresponse = response.json()
         geolocation = jresponse["results"][0]["geometry"]["location"]
         geolocation_string = str(geolocation["lat"]) + ", " + str(geolocation["lng"])
         

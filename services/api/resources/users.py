@@ -1,9 +1,11 @@
 from flask import request
 from flask_restful import Resource
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required
+from flask_jwt_extended import create_access_token, create_refresh_token
 
 from models.user import UserModel
 from schemas.user import UserSchema
+
+SCHEMA = UserSchema()
 
 
 class UserRegister(Resource):
@@ -11,9 +13,9 @@ class UserRegister(Resource):
     @classmethod
     def post(cls):
         user_json = request.get_json()
-        user = UserSchema().load(user_json)
+        user = SCHEMA.load(user_json)
 
-        if UserModel.find_by_username(user.user_name):
+        if UserModel.find_by_username(user.user_name) is not None:
             return {"message": "Invalid Username. Username already taken."}, 400
 
         user.save_to_db()
@@ -34,8 +36,8 @@ class UserLogin(Resource):
             if not user.check_password(password):
                 return {"message": "Ivalid Password."}, 401
             else:
-                access_token = create_access_token(identity=user.id, fresh=True)
-                refresh_token = create_refresh_token(user.id)
+                access_token = create_access_token(identity=user, fresh=True)
+                refresh_token = create_refresh_token(user)
         return {
             "access_token": access_token,
             "refresh_token": refresh_token
@@ -48,7 +50,7 @@ class User(Resource):
         user = UserModel.find_by_username(user_name)
         if not user:
             return {"message": "User Not Found."}, 404
-        return UserSchema().dump(user), 200
+        return SCHEMA.dump(user), 200
 
 
 class UserList(Resource):
