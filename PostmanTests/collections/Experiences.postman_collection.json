@@ -1,0 +1,1003 @@
+{
+	"info": {
+		"_postman_id": "e1f57c6c-dfeb-4ed9-9005-4670f22ea8ee",
+		"name": "Experiences",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23821509"
+	},
+	"item": [
+		{
+			"name": "201, Create Experience 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\": {\"type\": \"number\"},",
+							"        \"user_id\": {\"type\": \"number\"},",
+							"        \"title\": {\"type\": \"string\"},",
+							"        \"description\": {\"type\": \"string\"},",
+							"        \"geo_location\": {\"type\": \"string\"},",
+							"        \"image\": {\"type\": \"string\"},",
+							"        \"rating\": {\"type\": \"number\"},",
+							"        \"keywords\": {\"type\": \"array\"}",
+							"    },",
+							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"image\", \"rating\", \"keywords\"",
+							"    ]",
+							"};",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"});",
+							"",
+							"pm.test(\"Test Correct Field Values\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(1)",
+							"    pm.expect(jsonData.user_id).to.eql(1)",
+							"    pm.expect(jsonData.title).to.eql(\"Four Roses Distillery Tour\")",
+							"    pm.expect(jsonData.description).to.eql(\"Tour of the Four Roses distillery\")",
+							"    pm.expect(jsonData.rating).to.eql(3)",
+							"    pm.expect(jsonData.keywords).to.deep.equal([\"bourbon\", \"distillery\", \"four roses\"])",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Four Roses Distillery Tour\",\n    \"description\": \"Tour of the Four Roses distillery\",\n    \"geo_location\": \"Lawrenceburg, KY\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 3,\n    \"keywords\": [\"bourbon\", \"distillery\", \"Four Roses\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/experiences",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201, Create Experience 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\": {\"type\": \"number\"},",
+							"        \"user_id\": {\"type\": \"number\"},",
+							"        \"title\": {\"type\": \"string\"},",
+							"        \"description\": {\"type\": \"string\"},",
+							"        \"geo_location\": {\"type\": \"string\"},",
+							"        \"image\": {\"type\": \"string\"},",
+							"        \"rating\": {\"type\": \"number\"},",
+							"        \"keywords\": {\"type\": \"array\"}",
+							"    },",
+							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"image\", \"rating\", \"keywords\"",
+							"    ]",
+							"};",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"});",
+							"",
+							"pm.test(\"Test Correct Field Values\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(2)",
+							"    pm.expect(jsonData.user_id).to.eql(1)",
+							"    pm.expect(jsonData.title).to.eql(\"Louisville Slugger Museum\")",
+							"    pm.expect(jsonData.description).to.eql(\"Tour of the Louisville Slugger Museum\")",
+							"    pm.expect(jsonData.rating).to.eql(4)",
+							"    pm.expect(jsonData.keywords).to.deep.equal([\"baseball\", \"tour\", \"louisville\", \"museum\"])",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Louisville Slugger Museum\",\n    \"description\": \"Tour of the Louisville Slugger Museum\",\n    \"geo_location\": \"Louisville, KY\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 4,\n    \"keywords\": [\"baseball\", \"tour\", \"Louisville\", \"Museum\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/experiences",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201, Create Experience 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\": {\"type\": \"number\"},",
+							"        \"user_id\": {\"type\": \"number\"},",
+							"        \"title\": {\"type\": \"string\"},",
+							"        \"description\": {\"type\": \"string\"},",
+							"        \"geo_location\": {\"type\": \"string\"},",
+							"        \"image\": {\"type\": \"string\"},",
+							"        \"rating\": {\"type\": \"number\"},",
+							"        \"keywords\": {\"type\": \"array\"}",
+							"    },",
+							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"image\", \"rating\", \"keywords\"",
+							"    ]",
+							"};",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"});",
+							"",
+							"pm.test(\"Test Correct Field Values\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(3)",
+							"    pm.expect(jsonData.user_id).to.eql(2)",
+							"    pm.expect(jsonData.title).to.eql(\"Dos Santos\")",
+							"    pm.expect(jsonData.description).to.eql(\"restaurant\")",
+							"    pm.expect(jsonData.rating).to.eql(5)",
+							"    pm.expect(jsonData.keywords).to.deep.equal([\"restaurant\", \"mexican\", \"tacos\", \"colorado springs\"])",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Dos Santos\",\n    \"description\": \"restaurant\",\n    \"geo_location\": \"Colorado Springs, CO\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 5,\n    \"keywords\": [\"restaurant\", \"mexican\", \"tacos\", \"colorado springs\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/experiences",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "401, Create Experience",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Dos Santos\", \n    \"description\": \"restaurant\", \n    \"geo_location\": \"Colorado Springs, CO\", \n    \"image\": \"https://link\", \n    \"rating\":4, \n    \"keywords\": [\"restaurant\", \"mexican\", \"tacos\", \"colorado springs\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/experiences",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201, Create Experience 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Karl Strauss\", \n    \"description\": \"Brewery, restaurant\", \n    \"geo_location\": \"San Diego, CA\", \n    \"image\": \"https://link\", \n    \"rating\":5, \n    \"keywords\": [\"restaurant\", \"brewery\", \"san diego\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/experiences",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201, Create Experience 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Field Museum\", \n    \"description\": \"Natural history museum\", \n    \"geo_location\": \"Chicago, IL\", \n    \"image\": \"https://link\", \n    \"rating\":5, \n    \"keywords\": [\"museum\", \"history\", \"chicago\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/experiences",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "400, Missing Field",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Dos Santos\",\n    \"geo_location\": \"Colorado Springs, CO\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 5,\n    \"keywords\": [\"restaurant\", \"mexican\", \"tacos\", \"colorado springs\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/experiences",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, All Experiences",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Three Experiences Created\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.count).to.eql(5);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Experience By Keyword",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Contains One Entry: Slugger Museum\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.experiences[0].id).to.eql(2);",
+							"    pm.expect(jsonData.count).to.eql(1)",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences?keyword=Tour",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "Tour"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "403, Invalid User Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rating\": 5,\n    \"keywords\": [\"Tour\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/experiences/1",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Update Experience 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\": {\"type\": \"number\"},",
+							"        \"user_id\": {\"type\": \"number\"},",
+							"        \"title\": {\"type\": \"string\"},",
+							"        \"description\": {\"type\": \"string\"},",
+							"        \"geo_location\": {\"type\": \"string\"},",
+							"        \"image\": {\"type\": \"string\"},",
+							"        \"rating\": {\"type\": \"number\"},",
+							"        \"keywords\": {\"type\": \"array\"}",
+							"    },",
+							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"image\", \"rating\", \"keywords\"",
+							"    ]",
+							"};",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"});",
+							"",
+							"pm.test(\"Test Correct Field Values\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(1)",
+							"    pm.expect(jsonData.rating).to.eql(5)",
+							"    pm.expect(jsonData.keywords).to.deep.equal([",
+							"        \"bourbon\",",
+							"        \"distillery\",",
+							"        \"four roses\",",
+							"        \"tour\"",
+							"    ])",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rating\": 5,\n    \"keywords\": [\"Tour\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url}}/experiences/1",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Updated Now In Keyword",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Contains One Entry: Slugger Museum\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.experiences[1].id).to.eql(1);",
+							"    pm.expect(jsonData.experiences[0].id).to.eql(2);",
+							"    pm.expect(jsonData.count).to.eql(2)",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences?keyword=Tour",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "Tour"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "403, Delete 1 Invalid User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences/1",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Delete 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences/1",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404, id 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences/1",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Delete 2",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences/2",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Delete 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences/3",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Delete 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences/4",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Delete 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences/5",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences",
+						"5"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

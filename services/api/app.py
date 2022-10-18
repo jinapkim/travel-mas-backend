@@ -16,7 +16,7 @@ app = Flask(__name__)
 api = Api(app)
 jwt = JWTManager(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///" + app.root_path + "../../data.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "postgresql://admin:admin@localhost:5432/travel_mas")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["PROPAGATE_EXCEPTIONS"] = True
 app.config["JWT_SECRET_KEY"] = "MySuperSecretKey" # This should be moved elsewhere at some point
@@ -32,11 +32,25 @@ def marshmallow_validation(err):
     return jsonify(err.messages), 400
 
 
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.id
+
+
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data["sub"]
+    return UserModel.find_by_id(identity)
+
+
+# Experience Endpoints
 api.add_resource(User, "/user/<string:user_name>")
 api.add_resource(UserList, "/users")
 api.add_resource(UserRegister, "/register")
 api.add_resource(UserLogin, "/login")
-api.add_resource(Experience, "/experience/<int:experience_id>")
+
+# Experience Endpoints
+api.add_resource(Experience, "/experiences/<int:experience_id>")
 api.add_resource(Experiences, "/experiences")
 
 if __name__ == "__main__":

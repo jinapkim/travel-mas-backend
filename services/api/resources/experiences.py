@@ -1,39 +1,43 @@
-from hashlib import new
 from flask import request
 from flask_restful import Resource
+from flask_jwt_extended import jwt_required, current_user
 
 from models.experience import ExperienceModel
+from schemas.experience import ExperienceSchema
 from libs.location import FindLatLong
+
+SCHEMA = ExperienceSchema()
 
 
 class Experiences(Resource):
     @classmethod
     def get(cls):
         keyword = request.args.get("keyword")
-        if keyword:
+        if keyword is not None:
             experiences = ExperienceModel.find_by_keyword(keyword)
-            if not experiences:
-                return {"message": "Sorry. No experiences match that keyword"}, 404
-            return experiences
         else:
             experiences = ExperienceModel.find_all()
-            return experiences
+
+        return {
+            "count": len(experiences),
+            "experiences": [experience.to_json() for experience in experiences]
+        }, 200
 
     @classmethod
+    @jwt_required()
     def post(cls):
         experience_json = request.get_json()
-        location = FindLatLong(experience_json["geo_location"])
+        experience = SCHEMA.load(experience_json)
 
-        ExperienceModel(
-            title = experience_json["title"],
-            description = experience_json["description"],
-            geo_location = location,
-            image = experience_json["image"],
-            rating = experience_json["rating"],
-            keywords = experience_json["keywords"]
-            ).save_to_db()
-        
-        return {"message": "Experience successfully created"}, 201
+        # update to lat, long
+        experience.geo_location = FindLatLong(experience.geo_location)
+        # save all keywords as lower case
+        experience.keywords = [keyword.lower() for keyword in experience.keywords]
+        experience.user_id = current_user.id
+
+        experience.save_to_db()
+
+        return experience.to_json(), 201
 
 
 class Experience(Resource):
@@ -45,33 +49,38 @@ class Experience(Resource):
         return experience.to_json(), 200
 
     @classmethod
+    @jwt_required()
     def put(cls, experience_id: int):
         edited_experience = request.get_json()
         experience = ExperienceModel.find_by_id(experience_id)
+
         if not experience:
             return {"message": "Experience Not Found"}, 404
 
-        if "title" in edited_experience:
-            experience.title = edited_experience["title"]
-        if "description" in edited_experience:
-            experience.description = edited_experience["description"]
-        if "geo_location" in edited_experience:
-            location = FindLatLong(edited_experience["geo_location"])
-            experience.geo_location = location
-        if "image" in edited_experience:
-            experience.image = edited_experience["image"]
-        if "rating" in edited_experience:
-            experience.rating = edited_experience["rating"]
-        if "keywords" in edited_experience:
-            experience.keywords = edited_experience["keywords"]
+        if current_user.id != experience.user_id:
+            return {"message": f"Forbidden. User Is Not Owner Of {experience.title} Experience."}, 403
 
-        experience.save_to_db()
-        return {"message": "Experience successfully updated"}, 200
+        for key in edited_experience:
+            if key == "geo_location":
+                setattr(experience, key, FindLatLong(edited_experience[key]))
+            elif key == "keywords":
+                experience.update_keywords(edited_experience[key])
+            else:
+                setattr(experience, key, edited_experience[key])
+
+        experience.update_entry()
+
+        return experience.to_json(), 200
 
     @classmethod
+    @jwt_required()
     def delete(cls, experience_id: int):
         experience = ExperienceModel.find_by_id(experience_id)
         if not experience:
             return {"message": "Experience Not Found"}, 404
+
+        if current_user.id != experience.user_id:
+            return {"message": f"User Is Not Owner Of {experience.title} Experience."}, 403
+
         experience.delete_from_db()
         return {"message": "Experience successfully deleted"}, 200
