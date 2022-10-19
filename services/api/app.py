@@ -5,9 +5,12 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from marshmallow import ValidationError
 
+from resources.trips import Trips, Trip
 from resources.users import User, UserList, UserRegister, UserLogin
 from resources.experiences import Experience, Experiences
-from models.user import UserModel
+from resources.trips import Trips, Trip
+from resources.ratings import Ratings, Rating
+
 from db import db
 from ma import ma
 
@@ -26,6 +29,7 @@ ma.init_app(app)
 with app.app_context():
     db.drop_all()
     db.create_all()
+
 
 @app.errorhandler(ValidationError)
 def marshmallow_validation(err):
@@ -52,6 +56,10 @@ api.add_resource(UserLogin, "/login")
 # Experience Endpoints
 api.add_resource(Experience, "/experiences/<int:experience_id>")
 api.add_resource(Experiences, "/experiences")
+api.add_resource(Trips, '/trips')
+api.add_resource(Trip, '/trip/<int:trip_id>')
+api.add_resource(Ratings, '/ratings')
+api.add_resource(Rating, '/rating/<int:rating_id>')
 
 if __name__ == "__main__":
     app.run(debug=True)
