@@ -3,6 +3,7 @@ from typing import List, Dict, Any
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.ext.mutable import MutableList
 from db import db
+from libs.stopwords import removeStopwords
 
 
 class ExperienceModel(db.Model):
@@ -12,10 +13,11 @@ class ExperienceModel(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     title = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
-    geo_location = db.Column(db.String(), nullable=False)
+    location = db.Column(db.String(), nullable=False)
+    geo_location = db.Column(db.String())
     image = db.Column(db.String(), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
-    keywords = db.Column(MutableList.as_mutable(postgresql.ARRAY(db.String())), nullable=False)
+    keywords = db.Column(MutableList.as_mutable(postgresql.ARRAY(db.String())))
 
     #trip = db.relationship("TripExperienceModel", backref="experience", lazy="dynamic")
     #ratings = db.relationship("RatingModel", backref="rating", lazy="dynamic")
@@ -36,13 +38,22 @@ class ExperienceModel(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update_keywords(self, keywords):
-        keywords = [str(kw.lower()) for kw in keywords]
-        keyword_set = set(self.keywords)
-
-        for kw in keywords:
-            if kw not in keyword_set:
-                self.keywords.append(kw)
+    def populate_keywords(self):
+        self.keywords = []
+        # add title to keywords
+        self.keywords.append(self.title.lower())
+        # add complete address to keywords
+        self.keywords.append(self.location.lower())
+        # add address, city, and state to array of keywords
+        address = self.location.split(", ")
+        for item in address:
+            if item.lower() not in self.keywords:
+                self.keywords.append(item.lower())
+        # extract words from description to add to array of keywords
+        description_kws = removeStopwords(self.description)
+        for word in description_kws:
+            if word.lower() not in self.keywords:
+                self.keywords.append(word.lower())
 
     def update_entry(self) -> None:
         db.session.commit()
@@ -57,6 +68,7 @@ class ExperienceModel(db.Model):
             "user_id": self.user_id,
             "title": self.title,
             "description": self.description,
+            "location": self.location,
             "geo_location": self.geo_location,
             "image": self.image,
             "rating": self.rating,

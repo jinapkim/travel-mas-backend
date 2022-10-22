@@ -28,13 +28,11 @@ class Experiences(Resource):
     def post(cls):
         experience_json = request.get_json()
         experience = SCHEMA.load(experience_json)
-
-        # update to lat, long
-        experience.geo_location = FindLatLong(experience.geo_location)
-        # save all keywords as lower case
-        experience.keywords = [keyword.lower() for keyword in experience.keywords]
+        # popultate keywords from title, location, and description
+        experience.populate_keywords()
+        # add lat, long
+        experience.geo_location = FindLatLong(experience.location)
         experience.user_id = current_user.id
-
         experience.save_to_db()
 
         return experience.to_json(), 201
@@ -61,12 +59,17 @@ class Experience(Resource):
             return {"message": f"Forbidden. User Is Not Owner Of {experience.title} Experience."}, 403
 
         for key in edited_experience:
-            if key == "geo_location":
-                setattr(experience, key, FindLatLong(edited_experience[key]))
-            elif key == "keywords":
-                experience.update_keywords(edited_experience[key])
+            if key == "title":
+                setattr(experience, key, edited_experience[key])
+            elif key == "location":
+                setattr(experience, key, edited_experience[key])  
+                setattr(experience, "geo_location", FindLatLong(edited_experience[key]))
+            elif key == "description":
+                setattr(experience, key, edited_experience[key])
             else:
                 setattr(experience, key, edited_experience[key])
+
+        experience.populate_keywords()        
 
         experience.update_entry()
 

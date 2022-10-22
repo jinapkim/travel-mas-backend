@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "e1f57c6c-dfeb-4ed9-9005-4670f22ea8ee",
+		"_postman_id": "6b5ed31d-70cb-4590-957f-8da7327d1c8b",
 		"name": "Experiences",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23821509"
+		"_exporter_id": "17862312"
 	},
 	"item": [
 		{
@@ -44,7 +44,6 @@
 							"    pm.expect(jsonData.title).to.eql(\"Four Roses Distillery Tour\")",
 							"    pm.expect(jsonData.description).to.eql(\"Tour of the Four Roses distillery\")",
 							"    pm.expect(jsonData.rating).to.eql(3)",
-							"    pm.expect(jsonData.keywords).to.deep.equal([\"bourbon\", \"distillery\", \"four roses\"])",
 							"});",
 							""
 						],
@@ -67,7 +66,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Four Roses Distillery Tour\",\n    \"description\": \"Tour of the Four Roses distillery\",\n    \"geo_location\": \"Lawrenceburg, KY\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 3,\n    \"keywords\": [\"bourbon\", \"distillery\", \"Four Roses\"]\n}",
+					"raw": "{\n    \"title\": \"Four Roses Distillery Tour\",\n    \"description\": \"Tour of the Four Roses distillery\",\n    \"location\": \"Lawrenceburg, KY\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 3\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -124,7 +123,6 @@
 							"    pm.expect(jsonData.title).to.eql(\"Louisville Slugger Museum\")",
 							"    pm.expect(jsonData.description).to.eql(\"Tour of the Louisville Slugger Museum\")",
 							"    pm.expect(jsonData.rating).to.eql(4)",
-							"    pm.expect(jsonData.keywords).to.deep.equal([\"baseball\", \"tour\", \"louisville\", \"museum\"])",
 							"});",
 							""
 						],
@@ -147,7 +145,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Louisville Slugger Museum\",\n    \"description\": \"Tour of the Louisville Slugger Museum\",\n    \"geo_location\": \"Louisville, KY\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 4,\n    \"keywords\": [\"baseball\", \"tour\", \"Louisville\", \"Museum\"]\n}",
+					"raw": "{\n    \"title\": \"Louisville Slugger Museum\",\n    \"description\": \"Tour of the Louisville Slugger Museum\",\n    \"location\": \"Louisville, KY\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 4\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -204,7 +202,6 @@
 							"    pm.expect(jsonData.title).to.eql(\"Dos Santos\")",
 							"    pm.expect(jsonData.description).to.eql(\"restaurant\")",
 							"    pm.expect(jsonData.rating).to.eql(5)",
-							"    pm.expect(jsonData.keywords).to.deep.equal([\"restaurant\", \"mexican\", \"tacos\", \"colorado springs\"])",
 							"});",
 							""
 						],
@@ -227,7 +224,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Dos Santos\",\n    \"description\": \"restaurant\",\n    \"geo_location\": \"Colorado Springs, CO\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 5,\n    \"keywords\": [\"restaurant\", \"mexican\", \"tacos\", \"colorado springs\"]\n}",
+					"raw": "{\n    \"title\": \"Dos Santos\",\n    \"description\": \"restaurant\",\n    \"location\": \"Colorado Springs, CO\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -269,7 +266,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Dos Santos\", \n    \"description\": \"restaurant\", \n    \"geo_location\": \"Colorado Springs, CO\", \n    \"image\": \"https://link\", \n    \"rating\":4, \n    \"keywords\": [\"restaurant\", \"mexican\", \"tacos\", \"colorado springs\"]\n}",
+					"raw": "{\n    \"title\": \"Dos Santos\", \n    \"description\": \"restaurant\", \n    \"location\": \"Colorado Springs, CO\", \n    \"image\": \"https://link\", \n    \"rating\":4\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -318,7 +315,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Karl Strauss\", \n    \"description\": \"Brewery, restaurant\", \n    \"geo_location\": \"San Diego, CA\", \n    \"image\": \"https://link\", \n    \"rating\":5, \n    \"keywords\": [\"restaurant\", \"brewery\", \"san diego\"]\n}",
+					"raw": "{\n    \"title\": \"Karl Strauss\", \n    \"description\": \"Brewery, restaurant\", \n    \"location\": \"San Diego\", \n    \"image\": \"https://link\", \n    \"rating\":5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -367,7 +364,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Field Museum\", \n    \"description\": \"Natural history museum\", \n    \"geo_location\": \"Chicago, IL\", \n    \"image\": \"https://link\", \n    \"rating\":5, \n    \"keywords\": [\"museum\", \"history\", \"chicago\"]\n}",
+					"raw": "{\n    \"title\": \"Field Museum\", \n    \"description\": \"Natural history museum\", \n    \"location\": \"Chicago, IL\", \n    \"image\": \"https://link\", \n    \"rating\":5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -418,7 +415,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Dos Santos\",\n    \"geo_location\": \"Colorado Springs, CO\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 5,\n    \"keywords\": [\"restaurant\", \"mexican\", \"tacos\", \"colorado springs\"]\n}",
+					"raw": "{\n    \"title\": \"Dos Santos\",\n    \"location\": \"Colorado Springs, CO\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -448,7 +445,7 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Three Experiences Created\", function () {",
+							"pm.test(\"5 Experiences Created\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.count).to.eql(5);",
 							"});",
@@ -484,10 +481,9 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Contains One Entry: Slugger Museum\", function () {",
+							"pm.test(\"Contains Two Entries: Tour\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.experiences[0].id).to.eql(2);",
-							"    pm.expect(jsonData.count).to.eql(1)",
+							"    pm.expect(jsonData.count).to.eql(2)",
 							"});",
 							""
 						],
@@ -510,6 +506,49 @@
 						{
 							"key": "keyword",
 							"value": "Tour"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Experience By Keyword Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Contains One Entry: Karl Strauss\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.experiences[0].id).to.eql(4);",
+							"    pm.expect(jsonData.count).to.eql(1)",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences?keyword=San%20Diego",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "San%20Diego"
 						}
 					]
 				}
@@ -548,7 +587,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"rating\": 5,\n    \"keywords\": [\"Tour\"]\n}",
+					"raw": "{\n    \"rating\": 5,\n    \"location\": \"Atlanta, GA\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -569,7 +608,7 @@
 			"response": []
 		},
 		{
-			"name": "200, Update Experience 1",
+			"name": "200, Update Experience 3",
 			"event": [
 				{
 					"listen": "test",
@@ -601,14 +640,8 @@
 							"",
 							"pm.test(\"Test Correct Field Values\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.id).to.eql(1)",
+							"    pm.expect(jsonData.id).to.eql(3)",
 							"    pm.expect(jsonData.rating).to.eql(5)",
-							"    pm.expect(jsonData.keywords).to.deep.equal([",
-							"        \"bourbon\",",
-							"        \"distillery\",",
-							"        \"four roses\",",
-							"        \"tour\"",
-							"    ])",
 							"});",
 							""
 						],
@@ -622,7 +655,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "{{access_token_1}}",
+							"value": "{{access_token_2}}",
 							"type": "string"
 						}
 					]
@@ -631,7 +664,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"rating\": 5,\n    \"keywords\": [\"Tour\"]\n}",
+					"raw": "{\n    \"title\": \"Desta Ethiopian Kitchen\",\n    \"location\": \"Atlanta, GA\",\n    \"description\": \"Ethiopian restaurant\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -639,13 +672,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{api_url}}/experiences/1",
+					"raw": "{{api_url}}/experiences/3",
 					"host": [
 						"{{api_url}}"
 					],
 					"path": [
 						"experiences",
-						"1"
+						"3"
 					]
 				}
 			},
@@ -662,11 +695,10 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Contains One Entry: Slugger Museum\", function () {",
+							"pm.test(\"Contains One Entry: new name\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.experiences[1].id).to.eql(1);",
-							"    pm.expect(jsonData.experiences[0].id).to.eql(2);",
-							"    pm.expect(jsonData.count).to.eql(2)",
+							"    pm.expect(jsonData.experiences[0].id).to.eql(3);",
+							"    pm.expect(jsonData.count).to.eql(1)",
 							"});",
 							""
 						],
@@ -678,7 +710,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{api_url}}/experiences?keyword=Tour",
+					"raw": "{{api_url}}/experiences?keyword=Atlanta",
 					"host": [
 						"{{api_url}}"
 					],
@@ -688,7 +720,7 @@
 					"query": [
 						{
 							"key": "keyword",
-							"value": "Tour"
+							"value": "Atlanta"
 						}
 					]
 				}
@@ -964,6 +996,42 @@
 					"path": [
 						"experiences",
 						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, All Experiences",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"All Experiences deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.count).to.eql(0);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/experiences",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"experiences"
 					]
 				}
 			},
