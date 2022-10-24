@@ -1,13 +1,13 @@
 {
 	"info": {
-		"_postman_id": "6b5ed31d-70cb-4590-957f-8da7327d1c8b",
+		"_postman_id": "391e9f25-9560-4f17-99fc-c30ac553fe29",
 		"name": "Experiences",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "17862312"
+		"_exporter_id": "23821509"
 	},
 	"item": [
 		{
-			"name": "201, Create Experience 1",
+			"name": "201, Upload Image",
 			"event": [
 				{
 					"listen": "test",
@@ -17,15 +17,92 @@
 							"    \"type\": \"object\",",
 							"    \"properties\": {",
 							"        \"id\": {\"type\": \"number\"},",
+							"        \"url\": {\"type\": \"string\"}",
+							"    },",
+							"    \"required\": [\"id\", \"url\"]",
+							"};",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"    pm.response.to.have.jsonSchema(schema);",
+							"});",
+							"",
+							"const jsonResponse = pm.response.json();",
+							"pm.environment.set(\"image_id\", jsonResponse.id);",
+							"pm.environment.set(\"image_url\", jsonResponse.url);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/adambratcher/Downloads/four-roses.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{api_url}}/images",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"images"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201, Create Experience 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const image_url = pm.environment.get(\"image_url\");",
+							"",
+							"const schema = {",
+							"    \"type\": \"object\",",
+							"    \"properties\": {",
+							"        \"id\": {\"type\": \"number\"},",
 							"        \"user_id\": {\"type\": \"number\"},",
 							"        \"title\": {\"type\": \"string\"},",
 							"        \"description\": {\"type\": \"string\"},",
 							"        \"geo_location\": {\"type\": \"string\"},",
-							"        \"image\": {\"type\": \"string\"},",
+							"        \"image_url\": {\"type\": [\"string\", \"null\"]},",
 							"        \"rating\": {\"type\": \"number\"},",
 							"        \"keywords\": {\"type\": \"array\"}",
 							"    },",
-							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"image\", \"rating\", \"keywords\"",
+							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"rating\", \"keywords\"",
 							"    ]",
 							"};",
 							"",
@@ -43,6 +120,7 @@
 							"    pm.expect(jsonData.user_id).to.eql(1)",
 							"    pm.expect(jsonData.title).to.eql(\"Four Roses Distillery Tour\")",
 							"    pm.expect(jsonData.description).to.eql(\"Tour of the Four Roses distillery\")",
+							"    pm.expect(jsonData.image_url).to.eql(image_url)",
 							"    pm.expect(jsonData.rating).to.eql(3)",
 							"});",
 							""
@@ -66,7 +144,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Four Roses Distillery Tour\",\n    \"description\": \"Tour of the Four Roses distillery\",\n    \"location\": \"Lawrenceburg, KY\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 3\n}",
+					"raw": "{\n    \"image_id\": 1,\n    \"title\": \"Four Roses Distillery Tour\",\n    \"description\": \"Tour of the Four Roses distillery\",\n    \"location\": \"Lawrenceburg, KY\",\n    \"rating\": 3\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -92,6 +170,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"const image_url = pm.environment.get(\"image_url\");",
+							"",
 							"const schema = {",
 							"    \"type\": \"object\",",
 							"    \"properties\": {",
@@ -100,11 +180,11 @@
 							"        \"title\": {\"type\": \"string\"},",
 							"        \"description\": {\"type\": \"string\"},",
 							"        \"geo_location\": {\"type\": \"string\"},",
-							"        \"image\": {\"type\": \"string\"},",
+							"        \"image_url\": {\"type\": [\"string\", \"null\"]},",
 							"        \"rating\": {\"type\": \"number\"},",
 							"        \"keywords\": {\"type\": \"array\"}",
 							"    },",
-							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"image\", \"rating\", \"keywords\"",
+							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"rating\", \"keywords\"",
 							"    ]",
 							"};",
 							"",
@@ -145,7 +225,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Louisville Slugger Museum\",\n    \"description\": \"Tour of the Louisville Slugger Museum\",\n    \"location\": \"Louisville, KY\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 4\n}",
+					"raw": "{\n    \"title\": \"Louisville Slugger Museum\",\n    \"description\": \"Tour of the Louisville Slugger Museum\",\n    \"location\": \"Louisville, KY\",\n    \"rating\": 4\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -171,6 +251,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
+							"const image_url = pm.environment.get(\"image_url\");",
+							"",
 							"const schema = {",
 							"    \"type\": \"object\",",
 							"    \"properties\": {",
@@ -179,11 +261,11 @@
 							"        \"title\": {\"type\": \"string\"},",
 							"        \"description\": {\"type\": \"string\"},",
 							"        \"geo_location\": {\"type\": \"string\"},",
-							"        \"image\": {\"type\": \"string\"},",
+							"        \"image_url\": {\"type\": [\"string\", \"null\"]},",
 							"        \"rating\": {\"type\": \"number\"},",
 							"        \"keywords\": {\"type\": \"array\"}",
 							"    },",
-							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"image\", \"rating\", \"keywords\"",
+							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"rating\", \"keywords\"",
 							"    ]",
 							"};",
 							"",
@@ -224,7 +306,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Dos Santos\",\n    \"description\": \"restaurant\",\n    \"location\": \"Colorado Springs, CO\",\n    \"image\": \"linkToImage.jpg\",\n    \"rating\": 5\n}",
+					"raw": "{\n    \"title\": \"Dos Santos\",\n    \"description\": \"restaurant\",\n    \"location\": \"Colorado Springs, CO\",\n    \"rating\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -266,7 +348,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Dos Santos\", \n    \"description\": \"restaurant\", \n    \"location\": \"Colorado Springs, CO\", \n    \"image\": \"https://link\", \n    \"rating\":4\n}",
+					"raw": "{\n    \"title\": \"Dos Santos\", \n    \"description\": \"restaurant\", \n    \"location\": \"Colorado Springs, CO\", \n    \"rating\": 4\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -315,7 +397,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Karl Strauss\", \n    \"description\": \"Brewery, restaurant\", \n    \"location\": \"San Diego\", \n    \"image\": \"https://link\", \n    \"rating\":5\n}",
+					"raw": "{\n    \"title\": \"Karl Strauss\", \n    \"description\": \"Brewery, restaurant\", \n    \"location\": \"San Diego\",  \n    \"rating\":5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -364,7 +446,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Field Museum\", \n    \"description\": \"Natural history museum\", \n    \"location\": \"Chicago, IL\", \n    \"image\": \"https://link\", \n    \"rating\":5\n}",
+					"raw": "{\n    \"title\": \"Field Museum\", \n    \"description\": \"Natural history museum\", \n    \"location\": \"Chicago, IL\", \n    \"rating\":5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -622,11 +704,11 @@
 							"        \"title\": {\"type\": \"string\"},",
 							"        \"description\": {\"type\": \"string\"},",
 							"        \"geo_location\": {\"type\": \"string\"},",
-							"        \"image\": {\"type\": \"string\"},",
+							"        \"image_url\": {\"type\": [\"string\", \"null\"]},",
 							"        \"rating\": {\"type\": \"number\"},",
 							"        \"keywords\": {\"type\": \"array\"}",
 							"    },",
-							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"image\", \"rating\", \"keywords\"",
+							"    \"required\": [\"id\", \"user_id\", \"title\", \"description\", \"geo_location\", \"rating\", \"keywords\"",
 							"    ]",
 							"};",
 							"",
@@ -996,6 +1078,47 @@
 					"path": [
 						"experiences",
 						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200, Delete Image",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 202\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token_1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_url}}/images/{{image_id}}",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"images",
+						"{{image_id}}"
 					]
 				}
 			},
