@@ -49,7 +49,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 
 # User Endpoints
-api.add_resource(User, "/user/<string:user_name>")
+api.add_resource(User, "/users/<string:user_name>")
 api.add_resource(UserList, "/users")
 api.add_resource(UserRegister, "/register")
 api.add_resource(UserLogin, "/login")
