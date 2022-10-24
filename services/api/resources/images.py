@@ -25,14 +25,23 @@ class Images(Resource):
         image = ImageModel(url=image_url)
         image.save_to_db()
 
-        return {"image": image.to_dict()}, 200
+        return image.to_dict(), 201
 
 
 class Image(Resource):
     @classmethod
     @jwt_required()
     def get(cls, image_id: int):
-        image = ImageModel.find_by_id(image_id).to_dict()
+        image = ImageModel.find_by_id(image_id)
         if image is None:
             return {"error": f"Image with image_id: {image_id} not found."}, 404
         return image.to_dict(), 200
+
+    @classmethod
+    @jwt_required()
+    def delete(cls, image_id: int):
+        image = ImageModel.find_by_id(image_id)
+        if image is None:
+            return {"error": f"Image with imgage_id: {image_id} not found."}, 404
+        image.delete_from_db()
+        return {}, 202
