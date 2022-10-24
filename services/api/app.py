@@ -10,6 +10,7 @@ from resources.users import User, UserList, UserRegister, UserLogin
 from resources.experiences import Experience, Experiences
 from resources.trips import Trips, Trip
 from resources.ratings import Ratings, Rating
+from resources.images import Images, Image
 
 from db import db
 from ma import ma
@@ -47,8 +48,8 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return UserModel.find_by_id(identity)
 
 
-# Experience Endpoints
-api.add_resource(User, "/users/<string:user_name>")
+# User Endpoints
+api.add_resource(User, "/user/<string:user_name>")
 api.add_resource(UserList, "/users")
 api.add_resource(UserRegister, "/register")
 api.add_resource(UserLogin, "/login")
@@ -64,6 +65,10 @@ api.add_resource(Trip, '/trips/<int:trip_id>')
 # Rating Endpoints
 api.add_resource(Ratings, '/ratings')
 api.add_resource(Rating, '/ratings/<int:rating_id>')
+
+# Images Endpoint
+api.add_resource(Images, "/images")
+api.add_resource(Image, "/images/<int:image_id>")
 
 if __name__ == "__main__":
     app.run(debug=True)
