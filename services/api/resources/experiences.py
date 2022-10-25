@@ -21,7 +21,7 @@ class Experiences(Resource):
 
         return {
             "count": len(experiences),
-            "experiences": [experience.to_json() for experience in experiences]
+            "experiences": [experience.to_dict() for experience in experiences]
         }, 200
 
     @classmethod
@@ -35,13 +35,13 @@ class Experiences(Resource):
         # add lat, long
         experience.geo_location = FindLatLong(experience.location)
         experience.user_id = current_user.id
-        experience.save_to_db()
 
         image = ImageModel.find_by_id(experience.image_id)
         if image:
             experience.image_url = image.url
+        experience.save_to_db()
 
-        return experience.to_json(), 201
+        return experience.to_dict(), 201
 
 
 class Experience(Resource):
@@ -50,7 +50,7 @@ class Experience(Resource):
         experience = ExperienceModel.find_by_id(experience_id)
         if not experience:
             return {"message": "Experience Not Found"}, 404
-        return experience.to_json(), 200
+        return experience.to_dict(), 200
 
     @classmethod
     @jwt_required()
@@ -79,7 +79,7 @@ class Experience(Resource):
 
         experience.update_entry()
 
-        return experience.to_json(), 200
+        return experience.to_dict(), 200
 
     @classmethod
     @jwt_required()
@@ -93,3 +93,13 @@ class Experience(Resource):
 
         experience.delete_from_db()
         return {"message": "Experience successfully deleted"}, 200
+
+
+class UserExperiences(Resource):
+    @classmethod
+    def get(cls, user_id: str):
+        experiences = ExperienceModel.query.filter(ExperienceModel.user_id==user_id).all()
+        return {
+            "count": len(experiences),
+            "experiences": [experience.to_dict() for experience in experiences]
+        }, 200

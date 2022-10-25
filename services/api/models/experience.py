@@ -63,7 +63,7 @@ class ExperienceModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def to_json(self) -> Dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         return {
             "id": self.id,
             "user_id": self.user_id,
