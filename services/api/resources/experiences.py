@@ -3,6 +3,7 @@ from flask_restful import Resource
 from flask_jwt_extended import jwt_required, current_user
 
 from models.experience import ExperienceModel
+from models.image import ImageModel
 from schemas.experience import ExperienceSchema
 from libs.location import FindLatLong
 
@@ -27,6 +28,7 @@ class Experiences(Resource):
     @jwt_required()
     def post(cls):
         experience_json = request.get_json()
+
         experience = SCHEMA.load(experience_json)
         # popultate keywords from title, location, and description
         experience.populate_keywords()
@@ -34,6 +36,10 @@ class Experiences(Resource):
         experience.geo_location = FindLatLong(experience.location)
         experience.user_id = current_user.id
         experience.save_to_db()
+
+        image = ImageModel.find_by_id(experience.image_id)
+        if image:
+            experience.image_url = image.url
 
         return experience.to_json(), 201
 

@@ -10,12 +10,13 @@ class ExperienceModel(db.Model):
     __tablename__ = "experiences"
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    image_id = db.Column(db.Integer, db.ForeignKey("images.id"))
     title = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
     location = db.Column(db.String(), nullable=False)
     geo_location = db.Column(db.String())
-    image = db.Column(db.String(), nullable=False)
+    image_url = db.Column(db.String())
     rating = db.Column(db.Integer, nullable=False)
     keywords = db.Column(MutableList.as_mutable(postgresql.ARRAY(db.String())))
 
@@ -70,7 +71,7 @@ class ExperienceModel(db.Model):
             "description": self.description,
             "location": self.location,
             "geo_location": self.geo_location,
-            "image": self.image,
+            "image_url": self.image_url,
             "rating": self.rating,
             "keywords": self.keywords
         }
