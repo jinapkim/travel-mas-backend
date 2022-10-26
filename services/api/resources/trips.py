@@ -1,6 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from models.trip import TripModel
+from models.experience import ExperienceModel
 from db import db, Database
 
 class Trips(Resource):
@@ -58,8 +59,29 @@ class Trip(Resource):
         return trip.to_dict(), 200
 
 
-# class TripExperience(Resource):
-# 
-#     @classmethod
-#     def post(cls):
-#         pass
+class TripExperience(Resource):
+
+    @classmethod
+    def post(cls, trip_id, experience_id):
+        trip = TripModel.query.get(trip_id)
+        if not trip: 
+            return {'Error': 'Trip not found'}, 404
+        
+        experience = ExperienceModel.query.get(experience_id)
+        if not experience: 
+            return {'Error': 'Experience not found'}, 404
+
+        new_entry = trip.experiences.append(experience)
+        Database.commit()
+
+        return {'Message': 'Trip-experience added'}, 200
+
+    @classmethod
+    # Get all experiences tied to a specific trip 
+    def get(cls, trip_id):
+        trip = TripModel.query.get(trip_id)
+        if not trip: 
+            return {'Error': 'Trip not found'}, 404
+
+        experiences = trip.experiences.all()
+        return {'experiences': experience.to_dict() for experience in experiences}, 200

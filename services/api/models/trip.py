@@ -1,13 +1,18 @@
 from db import db
 
+
+trip_experience = db.Table('trip_experience',
+    db.Column('trip_id', db.Integer, db.ForeignKey("trips.id"), nullable=False),
+    db.Column('experience_id', db.Integer, db.ForeignKey("experiences.id"), nullable=False),
+)
+
 class TripModel(db.Model):
     __tablename__ = "trips"
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     name = db.Column(db.String(), nullable=False)
-
-    # trips = db.relationship("TripExperienceModel", backref="trip", lazy="True")
+    experiences = db.relationship('ExperienceModel', secondary=trip_experience, lazy='dynamic', backref='trips')
 
     def to_dict(self):
         return {
@@ -16,14 +21,3 @@ class TripModel(db.Model):
             'name': self.name
         }
         
-
-
-# class TripExperienceModel(db.Model):
-#     __tablename__ = "trip_experience"
-# 
-#     trip_id = db.Column(db.Integer, db.ForeignKey("trips.id"), nullable=False)
-#     experience_id = db.Column(db.Integer, db.ForeignKey("experiences.id"), nullable=False)
-# 
-#     def __init__(self, trip_id: int, experience_id: int):
-#         self.trip_id = trip_id
-#         self.experience_id = experience_id

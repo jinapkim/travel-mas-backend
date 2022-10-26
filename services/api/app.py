@@ -8,7 +8,7 @@ from marshmallow import ValidationError
 from models.user import UserModel
 from resources.users import User, UserList, UserRegister, UserLogin
 from resources.experiences import Experience, Experiences, UserExperiences
-from resources.trips import Trips, Trip
+from resources.trips import Trip, Trips, TripExperience
 from resources.ratings import Ratings, Rating
 from resources.images import Images, Image
 
@@ -62,6 +62,9 @@ api.add_resource(UserExperiences, "/users/<int:user_id>/experiences")
 # Trip Endpoints
 api.add_resource(Trips, '/trips')
 api.add_resource(Trip, '/trips/<int:trip_id>')
+
+# Trip-experience Endpoints
+api.add_resource(TripExperience, '/trips/<int:trip_id>/experiences', '/trips/<int:trip_id>/<int:experience_id>')
 
 # Rating Endpoints
 api.add_resource(Ratings, '/ratings')
