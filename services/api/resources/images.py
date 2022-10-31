@@ -10,7 +10,7 @@ class Images(Resource):
     @classmethod
     @jwt_required()
     def post(cls):
-        file = request.files.get("file")
+        file = request.files.get("imageFile")
         if file is None:
             return {"error": "Missing image file."}, 400
 

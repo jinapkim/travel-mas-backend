@@ -3,6 +3,7 @@ import os
 from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 from marshmallow import ValidationError
 
 from models.user import UserModel
@@ -19,6 +20,7 @@ from ma import ma
 app = Flask(__name__)
 api = Api(app)
 jwt = JWTManager(app)
+CORS(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "postgresql://admin:admin@localhost:5432/travel_mas")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
