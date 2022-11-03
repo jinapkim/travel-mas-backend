@@ -1,3 +1,5 @@
+import os
+
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, current_user
@@ -21,7 +23,8 @@ class Images(Resource):
             return {"error": "Invalid file type."}
 
         destination = f"{current_user.id}/{get_basename(file)}"
-        image_url = upload_file("travelmas-bucket", file, destination)
+        bucket_name = os.getenv("GCS_BUCKET", "travelmas-bucket")
+        image_url = upload_file(bucket_name, file, destination)
         image = ImageModel(url=image_url)
         image.save_to_db()
 

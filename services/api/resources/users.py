@@ -1,7 +1,6 @@
 from flask import request, jsonify
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token, create_refresh_token
-from flask_jwt_extended import set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 
 from models.user import UserModel
 from schemas.user import UserSchema
@@ -39,22 +38,9 @@ class UserLogin(Resource):
 
             access_token = create_access_token(identity=user, fresh=True)
             refresh_token = create_refresh_token(user)
-            # Set the JWT cookies in the response
-            resp = jsonify({
-                "access_token": access_token,
-                "refresh_token": refresh_token
-            })
-            set_access_cookies(resp, access_token)
-            set_refresh_cookies(resp, refresh_token)
-        return resp
 
-
-class UserLogout(Resource):
-    @classmethod
-    def post(cls):
-        resp = jsonify({"logout": True})
-        unset_jwt_cookies(resp)
-        return resp
+        return {"access_token": access_token,
+                "refresh_token": refresh_token}
 
 
 class User(Resource):

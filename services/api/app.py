@@ -7,12 +7,11 @@ from flask_cors import CORS
 from marshmallow import ValidationError
 
 from models.user import UserModel
-from resources.users import User, UserList, UserRegister, UserLogin, UserLogout
+from resources.users import User, UserList, UserRegister, UserLogin
 from resources.experiences import Experience, Experiences, UserExperiences
 from resources.trips import Trip, Trips, TripExperience
 from resources.ratings import Ratings, Rating
 from resources.images import Images, Image
-from resources.auth import AuthRefresh
 
 from db import db
 from ma import ma
@@ -27,9 +26,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "postgresql://
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["PROPAGATE_EXCEPTIONS"] = True
 
-app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
-app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config["JWT_SECRET_KEY"] = "MySuperSecretKey" # This should be moved elsewhere at some point
 
 
@@ -62,8 +58,6 @@ api.add_resource(User, "/users/<string:user_name>")
 api.add_resource(UserList, "/users")
 api.add_resource(UserRegister, "/register")
 api.add_resource(UserLogin, "/login")
-api.add_resource(UserLogout, "/logout")
-api.add_resource(AuthRefresh, "/token/refresh")
 
 # Experience Endpoints
 api.add_resource(Experience, "/experiences/<int:experience_id>")
