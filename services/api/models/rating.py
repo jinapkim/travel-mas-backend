@@ -15,8 +15,3 @@ class RatingModel(db.Model):
             'experience_id': self.experience_id,
             'thumbs_up': self.thumbs_up
         }
-
-    # def __init__(self, user_id, experience_id, thumbs_up):
-    #     self.user_id = user_id
-    #     self.experience_id = experience_id
-    #     self.thumbs_up = thumbs_up

@@ -5,10 +5,11 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from marshmallow import ValidationError
+from flask_cors import CORS
 
 from models.user import UserModel
 from resources.users import User, UserList, UserRegister, UserLogin
-from resources.experiences import Experience, Experiences, UserExperiences
+from resources.experiences import Experience, Experiences, UserExperiences, ExperienceRating
 from resources.trips import Trip, Trips, TripExperience
 from resources.ratings import Ratings, Rating
 from resources.images import Images, Image
@@ -69,11 +70,14 @@ api.add_resource(Trips, '/trips')
 api.add_resource(Trip, '/trips/<int:trip_id>')
 
 # Trip-experience Endpoints
-api.add_resource(TripExperience, '/trips/<int:trip_id>/experiences', '/trips/<int:trip_id>/<int:experience_id>')
+api.add_resource(TripExperience, '/trips/<int:trip_id>/experiences', '/trips/<int:trip_id>/experiences/<int:experience_id>')
 
 # Rating Endpoints
 api.add_resource(Ratings, '/ratings')
 api.add_resource(Rating, '/ratings/<int:rating_id>')
+
+# Experience-rating endpoints
+api.add_resource(ExperienceRating, '/experiences/<int:experience_id>/ratings')
 
 # Images Endpoint
 api.add_resource(Images, "/images")

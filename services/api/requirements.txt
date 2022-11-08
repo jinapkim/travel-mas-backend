@@ -12,6 +12,7 @@ flask-marshmallow==0.14.0
 Flask-RESTful==0.3.9
 Flask-Reuploaded==1.2.0
 Flask-SQLAlchemy==3.0.0
+Flask-Cors==3.0.10
 google-api-core==2.10.2
 google-auth==2.13.0
 google-cloud-core==2.3.2

@@ -4,6 +4,7 @@ from sqlalchemy.dialects import postgresql
 from sqlalchemy.ext.mutable import MutableList
 from db import db
 from libs.stopwords import removeStopwords
+from models.rating import RatingModel
 
 
 class ExperienceModel(db.Model):
@@ -20,8 +21,7 @@ class ExperienceModel(db.Model):
     rating = db.Column(db.Integer, nullable=False)
     keywords = db.Column(MutableList.as_mutable(postgresql.ARRAY(db.String())))
 
-    #trip = db.relationship("TripExperienceModel", backref="experience", lazy="dynamic")
-    #ratings = db.relationship("RatingModel", backref="rating", lazy="dynamic")
+    ratings = db.relationship("RatingModel", lazy="dynamic", backref="experience")
 
     @classmethod
     def find_by_id(cls, _id: int) -> ExperienceModel:

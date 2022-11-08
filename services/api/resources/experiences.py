@@ -4,8 +4,10 @@ from flask_jwt_extended import jwt_required, current_user
 
 from models.experience import ExperienceModel
 from models.image import ImageModel
+from models.rating import RatingModel
 from schemas.experience import ExperienceSchema
 from libs.location import FindLatLong
+from db import db, Database
 
 SCHEMA = ExperienceSchema()
 
@@ -103,3 +105,50 @@ class UserExperiences(Resource):
             "count": len(experiences),
             "experiences": [experience.to_dict() for experience in experiences]
         }, 200
+
+class ExperienceRating(Resource): 
+    @classmethod
+    def get(cls, experience_id: int):
+        experience = ExperienceModel.query.get(experience_id)
+        if not experience:
+            return {'Error': 'Experience not found'}, 404
+
+        ratings = experience.ratings.all()
+        result = 0
+        for rating in ratings:
+            print(rating.thumbs_up)
+            if rating.thumbs_up == True: 
+                result = result + 1
+            else:
+                result = result - 1
+        
+        return {'Rating': result}, 200
+
+    @classmethod
+    def post(cls, experience_id:int):
+        data = request.get_json()
+
+        experience = ExperienceModel.query.get(experience_id)
+        if not experience: 
+            return {'Error': 'Experience not found'}, 404
+
+        # Check if user has already rated this experience
+        user = data['user_id']
+        results = experience.ratings.filter_by(user_id=user).count()
+        if results > 0:
+            return {'Error': 'User has already rated this experience'}, 400
+
+        # Create new Rating 
+        new_rating = RatingModel(
+            user_id = data['user_id'],
+            experience_id = experience_id,
+            thumbs_up = data['thumbs_up']
+        )
+        Database.add(new_rating)
+
+        # Add Rating to Experience
+        experience.ratings.append(new_rating)
+        Database.commit()
+        print(experience.ratings)
+
+        return {'Message': 'Rating added to experience'}, 200
