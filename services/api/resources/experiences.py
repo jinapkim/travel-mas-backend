@@ -117,7 +117,6 @@ class ExperienceRating(Resource):
         ratings = experience.ratings.all()
         result = 0
         for rating in ratings:
-            print(rating.thumbs_up)
             if rating.thumbs_up == True: 
                 result = result + 1
             else:

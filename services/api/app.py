@@ -10,7 +10,7 @@ from models.user import UserModel
 from resources.experiences import Experience, Experiences, UserExperiences, ExperienceRating
 from resources.users import User, UserList, UserRegister, UserLogin, UserLogout
 from resources.trips import Trip, Trips, TripExperience
-from resources.ratings import Ratings, Rating, RatingsExperience
+from resources.ratings import Ratings, Rating
 from resources.images import Images, Image
 
 from db import db
@@ -64,7 +64,6 @@ api.add_resource(UserLogout, "/logout")
 api.add_resource(Experience, "/experiences/<int:experience_id>")
 api.add_resource(Experiences, "/experiences")
 api.add_resource(UserExperiences, "/users/<int:user_id>/experiences")
-api.add_resource(RatingsExperience, "/experiences/<int:experience_id>/ratings")
 
 # Trip Endpoints
 api.add_resource(Trips, '/trips')
