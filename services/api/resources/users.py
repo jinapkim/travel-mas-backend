@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token, create_refresh_token
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from models.user import UserModel
 from schemas.user import UserSchema
@@ -25,22 +26,39 @@ class UserRegister(Resource):
 class UserLogin(Resource):
     @classmethod
     def post(cls):
-        user_name = request.json.get("user_name", None)
-        password = request.json.get("password", None)
+        user_name = request.json.get("user_name", "")
+        password = request.json.get("password", "")
 
-        if user_name is not None:
-            user = UserModel.find_by_username(user_name)
-            if not user:
-                return {"message": "User Not Found."}, 404
+        user = UserModel.find_by_username(user_name)
+        if not user:
+            return {"message": "User Not Found."}, 404
 
-            if not user.check_password(password):
-                return {"message": "Ivalid Password."}, 401
+        if not user.check_password(password):
+            return {"message": "Ivalid Password."}, 401
 
-            access_token = create_access_token(identity=user, fresh=True)
-            refresh_token = create_refresh_token(user)
+        access_token = create_access_token(identity=user, fresh=True)
+        refresh_token = create_refresh_token(user)
 
-        return {"access_token": access_token,
-                "refresh_token": refresh_token}
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token}, 200
+
+
+class UserLogout(Resource):
+    @classmethod
+    @jwt_required()
+    def post(cls):
+        response = jsonify({"message": "logout successful"})
+        return response
+
+
+class UserRefresh(Resource):
+    @classmethod
+    @jwt_required(refresh=True)
+    def post(cls):
+        current_user = get_jwt_identity()
+        access_token = create_access_token(identity=current_user)
+        return {"access_token": access_token}, 200
 
 
 class User(Resource):

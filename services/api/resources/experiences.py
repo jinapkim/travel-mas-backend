@@ -38,9 +38,10 @@ class Experiences(Resource):
         experience.geo_location = FindLatLong(experience.location)
         experience.user_id = current_user.id
 
-        image = ImageModel.find_by_id(experience.image_id)
-        if image:
-            experience.image_url = image.url
+        if experience.image_id:
+            image = ImageModel.find_by_id(experience.image_id)
+            if image:
+                experience.image_url = image.url
         experience.save_to_db()
 
         return experience.to_dict(), 201

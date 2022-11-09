@@ -5,13 +5,12 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from marshmallow import ValidationError
-from flask_cors import CORS
 
 from models.user import UserModel
-from resources.users import User, UserList, UserRegister, UserLogin
 from resources.experiences import Experience, Experiences, UserExperiences, ExperienceRating
+from resources.users import User, UserList, UserRegister, UserLogin, UserLogout
 from resources.trips import Trip, Trips, TripExperience
-from resources.ratings import Ratings, Rating
+from resources.ratings import Ratings, Rating, RatingsExperience
 from resources.images import Images, Image
 
 from db import db
@@ -21,7 +20,7 @@ from ma import ma
 app = Flask(__name__)
 api = Api(app)
 jwt = JWTManager(app)
-CORS(app)
+CORS(app, resources={r"*": {"origins": "*"}})
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "postgresql://admin:admin@localhost:5432/travel_mas")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -32,10 +31,10 @@ app.config["JWT_SECRET_KEY"] = "MySuperSecretKey" # This should be moved elsewhe
 
 db.init_app(app)
 ma.init_app(app)
-if os.getenv("FLASK_DEBUG", True):
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
+
+with app.app_context():
+    # db.drop_all()
+    db.create_all()
 
 
 @app.errorhandler(ValidationError)
@@ -59,11 +58,13 @@ api.add_resource(User, "/users/<string:user_name>")
 api.add_resource(UserList, "/users")
 api.add_resource(UserRegister, "/register")
 api.add_resource(UserLogin, "/login")
+api.add_resource(UserLogout, "/logout")
 
 # Experience Endpoints
 api.add_resource(Experience, "/experiences/<int:experience_id>")
 api.add_resource(Experiences, "/experiences")
 api.add_resource(UserExperiences, "/users/<int:user_id>/experiences")
+api.add_resource(RatingsExperience, "/experiences/<int:experience_id>/ratings")
 
 # Trip Endpoints
 api.add_resource(Trips, '/trips')
