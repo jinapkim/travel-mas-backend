@@ -2,8 +2,8 @@ from db import db
 
 
 trip_experience = db.Table('trip_experience',
-    db.Column('trip_id', db.Integer, db.ForeignKey("trips.id"), nullable=False),
-    db.Column('experience_id', db.Integer, db.ForeignKey("experiences.id"), nullable=False),
+    db.Column('trip_id', db.Integer, db.ForeignKey("trips.id"), nullable=False, primary_key=True),
+    db.Column('experience_id', db.Integer, db.ForeignKey("experiences.id"), nullable=False, primary_key=True),
 )
 
 class TripModel(db.Model):

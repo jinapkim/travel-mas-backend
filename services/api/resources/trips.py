@@ -2,12 +2,20 @@ from flask import request
 from flask_restful import Resource
 from models.trip import TripModel
 from models.experience import ExperienceModel
-from db import db, Database
+from db import Database
 
 class Trips(Resource):
 
     @classmethod
     def get(cls):
+        # Check for user_id in query string and get trips by user
+        user_id = request.args.get("user_id", -1)
+        if user_id == "null":
+            return {"trips": [{"id": 0, "name": "No Trips Found"}]}
+        if user_id.isnumeric:
+            trips = TripModel.query.filter(TripModel.user_id==int(user_id)).all()
+            return {"trips": [trip.to_dict() for trip in trips]}
+
         trips = TripModel.query.all()
         results = {'trips': [trip.to_dict() for trip in trips]}
 

@@ -41,7 +41,9 @@ class UserLogin(Resource):
 
         return {
             "access_token": access_token,
-            "refresh_token": refresh_token}, 200
+            "refresh_token": refresh_token,
+            "user_id": user.id
+            }, 200
 
 
 class UserLogout(Resource):
