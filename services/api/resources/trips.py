@@ -85,6 +85,20 @@ class TripExperience(Resource):
         return {'Message': 'Trip-experience added'}, 200
 
     @classmethod
+    def delete(cls, trip_id, experience_id):
+        trip = TripModel.query.get(trip_id)
+        experience = ExperienceModel.query.get(experience_id)
+        if not trip:
+            return {"Error": "Trip not found"}, 404
+        if not experience:
+            return {"Error": "Experience not found"}, 404
+
+        trip.experiences.remove(experience)
+        Database.commit()
+
+        return {"Message": f"Epxerience {experience_id} Removed From Trip ID {trip_id}"}
+
+    @classmethod
     # Get all experiences tied to a specific trip 
     def get(cls, trip_id):
         trip = TripModel.query.get(trip_id)
@@ -92,4 +106,4 @@ class TripExperience(Resource):
             return {'Error': 'Trip not found'}, 404
 
         experiences = trip.experiences.all()
-        return {'experiences': experience.to_dict() for experience in experiences}, 200
+        return {'experiences': [experience.to_dict() for experience in experiences]}, 200
