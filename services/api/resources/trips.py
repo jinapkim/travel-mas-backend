@@ -48,6 +48,7 @@ class Trip(Resource):
         if not trip: 
             return {'Error': 'Trip not found'}, 404
 
+        trip.experiences = []
         Database.delete(trip)
         
         return {'Message': 'Trip deleted'}, 200
