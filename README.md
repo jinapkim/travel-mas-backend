@@ -1,4 +1,4 @@
-# Travel Mas
+# TravelMas
 
 Our team created a crowd-sourced travel planner full stack web application where users can upload, share, and rate various travel experiences.
 
